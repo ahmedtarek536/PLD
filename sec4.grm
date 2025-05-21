@@ -1,0 +1,75 @@
+"Start Symbol" = <Program>
+ 
+!---------------- Terminals ----------------
+
+Number  = {digit}+('.' {digit}+)?  
+Id      = {letter}+ 
+Alph =  '"' ({letter} | {digit} | '+' | '-' | '*' | '/')+ '"'
+
+ 
+
+!---------------- Program Structure ----------------
+<Program>     ::= 'Start' <stmt_list> 'End'
+
+<stmt_list>   ::= <stmt>
+               | <stmt> <stmt_list>
+               
+<stmt>        ::= <assign>
+               | <if_stmt>
+               | <for_stmt>
+               | <inc_dec_stmt>
+               | <print_stmt>
+
+!---------------- Assignment ----------------
+<assign> ::= <id> '=' <expr> 
+<id>     ::= Id
+
+!---------------- Expressions ----------------
+<expr>   ::= <expr> '+' <term>
+          | <expr> '-' <term>
+          | <term>
+
+<term>   ::= <term> '*' <factor>
+          | <term> '/' <factor> 
+          | <term> '%' <factor>
+          | <factor>
+
+<factor> ::= <factor> '**' <exp>
+          | <exp>
+
+<exp>    ::= '(' <expr> ')'
+          | <id>
+          | <number>
+          | <string>
+
+<number> ::= Number
+<string>     ::= Alph
+                         
+
+!---------------- Print Statement ----------------
+<print_stmt> ::= 'print' '(' <expr> ')'
+
+
+!---------------- If Statement ----------------
+<if_stmt> ::= 'if' <cond> ':' <stmt_list>
+           | 'if' <cond> ':' <stmt_list> 'else' ':' <stmt_list>
+
+<cond>    ::= <expr> <comp_op> <expr>
+<comp_op> ::= '<' | '>' | '==' | '!=' | '<=' | '>='
+
+
+!---------------- For Loop ----------------
+<for_stmt> ::= 'for' '(' <id> 'in' 'range' '(' <range_args> ')' ')' ':' <stmt_list>
+
+<range_args> ::= <expr>
+              | <expr> ',' <expr>
+              | <expr> ',' <expr> ',' <expr>
+
+
+!---------------- Increment / Decrement ----------------
+<inc_dec_stmt> ::= <prefix_op> <id>
+                 | <id> <postfix_op> 
+
+<prefix_op> ::= '++' | '--'
+<postfix_op> ::= '++' | '--'
+ 
